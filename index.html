@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>Doubt Solver AI | Math, Science, Social, EVS, English</title>
+  <meta
+    name="description"
+    content="Ask your study doubts in Math, Science, Social Science, EVS and English. Get step-by-step, student-friendly explanations from AI."
+  />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 20px 12px;
+    }
+    .shell {
+      width: 100%;
+      max-width: 980px;
+    }
+    .card {
+      background: #020617;
+      border-radius: 22px;
+      padding: 20px 18px 22px;
+      border: 1px solid rgba(148,163,184,0.4);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .badge {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(37,99,235,0.15);
+      border: 1px solid rgba(96,165,250,0.6);
+      color: #bfdbfe;
+    }
+    .layout {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    @media (min-width: 800px) {
+      .layout {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+    }
+    .sidebar {
+      flex: 0 0 260px;
+    }
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .subject-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .subject-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: #020617;
+      color: #e5e7eb;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .subject-btn.active {
+      background: #2563eb;
+      border-color: #60a5fa;
+    }
+    select {
+      width: 100%;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      padding: 7px 9px;
+      border-radius: 10px;
+      border: 1px solid rgba(75,85,99,0.9);
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 13px;
+    }
+    .note {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+    .chat-box {
+      flex: 1;
+      border-radius: 18px;
+      border: 1px solid rgba(55,65,81,0.8);
+      display: flex;
+      flex-direction: column;
+      background: #020617;
+      height: 480px;
+    }
+    .chat-log {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 13px;
+    }
+    .msg {
+      max-width: 90%;
+      margin-bottom: 8px;
+    }
+    .msg.user { margin-left: auto; text-align: right; }
+    .bubble {
+      display: inline-block;
+      padding: 7px 10px;
+      border-radius: 12px;
+      line-height: 1.4;
+    }
+    .bubble.user {
+      background: rgba(34,197,94,0.18);
+      border: 1px solid rgba(52,211,153,0.7);
+    }
+    .bubble.ai {
+      background: rgba(30,64,175,0.35);
+      border: 1px solid rgba(129,140,248,0.7);
+    }
+    .chat-controls {
+      border-top: 1px solid rgba(55,65,81,0.8);
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    textarea {
+      width: 100%;
+      resize: none;
+      min-height: 54px;
+      max-height: 100px;
+      background: #020617;
+      border-radius: 10px;
+      border: 1px solid rgba(75,85,99,0.9);
+      color: #e5e7eb;
+      font-size: 13px;
+      padding: 7px 9px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    button.btn-primary {
+      border: none;
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #22c55e;
+      color: #022c22;
+      white-space: nowrap;
+    }
+    button.btn-secondary {
+      border: 1px solid rgba(148,163,184,0.8);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      background: #020617;
+      color: #e5e7eb;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    input[type="file"] {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .footer-text {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="card">
+      <h1>Doubt Solver AI</h1>
+      <p class="subtitle">
+        Ask your doubts in Math, Science, Social Science, EVS and English. Get step-by-step, student-friendly help.
+      </p>
+
+      <div class="badge-row">
+        <span class="badge">📚 Study help only – no exam cheating</span>
+        <span class="badge">🧠 Explains concepts, shows steps</span>
+        <span class="badge">🔊 Voice input + photo questions</span>
+      </div>
+
+      <div class="layout">
+        <div class="sidebar">
+          <p class="section-title">Subject</p>
+          <div class="subject-buttons" id="subjectButtons">
+            <button class="subject-btn active" data-subject="math">Math</button>
+            <button class="subject-btn" data-subject="science">Science</button>
+            <button class="subject-btn" data-subject="social">Social Science</button>
+            <button class="subject-btn" data-subject="evs">EVS</button>
+            <button class="subject-btn" data-subject="english">English</button>
+            <button class="subject-btn" data-subject="general">General</button>
+          </div>
+
+          <p class="section-title">Tutor Style</p>
+          <select id="tutorStyle">
+            <option value="concept">Concept Coach (understand the idea)</option>
+            <option value="steps">Step-by-step Solver</option>
+            <option value="strategy">Study Strategy & Tips</option>
+          </select>
+
+          <p class="section-title">Ask by Photo</p>
+          <input type="file" id="imageInput" accept="image/*" />
+          <button class="btn-secondary" style="margin-top:6px;" id="imageAskBtn">
+            📷 Solve this photo doubt
+          </button>
+
+          <p class="note">
+            Use clear, readable photos. The AI reads the question and then explains the method.
+          </p>
+        </div>
+
+        <div class="chat-box" aria-label="Doubt solving chat">
+          <div class="chat-log" id="chatLog">
+            <div class="msg ai">
+              <div class="bubble ai">
+                Hi! 👋 I’m your Doubt Solver AI.<br><br>
+                Tell me what you’re stuck on in <strong>Math, Science, Social, EVS or English</strong>.
+                I’ll explain it simply and show steps so you can learn, not just copy.
+              </div>
+            </div>
+          </div>
+          <div class="chat-controls">
+            <textarea
+              id="questionInput"
+              placeholder="Type your doubt here. Example: 'Class 8 math: I don’t understand how to find the area of a triangle.'"
+            ></textarea>
+            <div class="row">
+              <button class="btn-primary" id="askBtn">Ask AI</button>
+              <button class="btn-secondary" id="voiceBtn">🎤 Voice input</button>
+              <span id="statusText" style="font-size:11px;color:#9ca3af;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="footer-text">
+        This tool is for learning only. It does not replace your teacher or school, and it should not be used
+        to cheat on exams or tests.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    const subjectButtons = document.getElementById("subjectButtons");
+    let currentSubject = "math";
+
+    subjectButtons.addEventListener("click", (e) => {
+      if (e.target.classList.contains("subject-btn")) {
+        document
+          .querySelectorAll(".subject-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        e.target.classList.add("active");
+        currentSubject = e.target.getAttribute("data-subject");
+      }
+    });
+
+    const chatLog = document.getElementById("chatLog");
+    const askBtn = document.getElementById("askBtn");
+    const questionInput = document.getElementById("questionInput");
+    const tutorStyleSelect = document.getElementById("tutorStyle");
+    const imageInput = document.getElementById("imageInput");
+    const imageAskBtn = document.getElementById("imageAskBtn");
+    const statusText = document.getElementById("statusText");
+    const voiceBtn = document.getElementById("voiceBtn");
+
+    function appendMessage(role, text) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "msg " + role;
+      const bubble = document.createElement("div");
+      bubble.className = "bubble " + role;
+      bubble.textContent = text;
+      wrapper.appendChild(bubble);
+      chatLog.appendChild(wrapper);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    async function sendTextQuestion() {
+      const question = questionInput.value.trim();
+      if (!question) return;
+
+      const tutorStyle = tutorStyleSelect.value;
+
+      appendMessage("user", question);
+      questionInput.value = "";
+      askBtn.disabled = true;
+      statusText.textContent = "Thinking...";
+
+      try {
+        const res = await fetch("/api/ask-text", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            question,
+            subject: currentSubject,
+            tutorStyle
+          })
+        });
+
+        const data = await res.json();
+        appendMessage("ai", data.answer || "I couldn’t generate an answer. Try rephrasing your question.");
+
+      } catch (err) {
+        appendMessage("ai", "Something went wrong while answering. Please try again.");
+      } finally {
+        askBtn.disabled = false;
+        statusText.textContent = "";
+      }
+    }
+
+    askBtn.addEventListener("click", sendTextQuestion);
+    questionInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendTextQuestion();
+      }
+    });
+
+    imageAskBtn.addEventListener("click", async () => {
+      const file = imageInput.files && imageInput.files[0];
+      if (!file) {
+        alert("Please choose an image first.");
+        return;
+      }
+
+      const tutorStyle = tutorStyleSelect.value;
+
+      appendMessage("user", "[Photo doubt uploaded]");
+      imageInput.value = "";
+      imageAskBtn.disabled = true;
+      statusText.textContent = "Reading photo...";
+
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("subject", currentSubject);
+      formData.append("tutorStyle", tutorStyle);
+
+      try {
+        const res = await fetch("/api/ask-image", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await res.json();
+        appendMessage("ai", data.answer || "I couldn’t read that image. Try a clearer photo or type the question.");
+
+      } catch (err) {
+        appendMessage("ai", "Error reading that image. Please try again.");
+      } finally {
+        imageAskBtn.disabled = false;
+        statusText.textContent = "";
+      }
+    });
+
+    // Voice input (browser speech recognition)
+    let recognizing = false;
+    let recognition = null;
+
+    if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.lang = "en-IN";
+      recognition.interimResults = false;
+
+      recognition.onstart = () => {
+        recognizing = true;
+        statusText.textContent = "Listening... speak your doubt.";
+      };
+      recognition.onend = () => {
+        recognizing = false;
+        statusText.textContent = "";
+      };
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        questionInput.value = transcript;
+      };
+
+      voiceBtn.addEventListener("click", () => {
+        if (recognizing) {
+          recognition.stop();
+          return;
+        }
+        recognition.start();
+      });
+    } else {
+      voiceBtn.disabled = true;
+      voiceBtn.textContent = "🎤 Not supported";
+    }
+  </script>
+</body>
+</html>
